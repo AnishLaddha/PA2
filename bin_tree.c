@@ -37,7 +37,12 @@ void post_order_print(Node *root)
   }
   post_order_print(root->left);
   post_order_print(root->right);
-  printf("%c\n", root->value);
+  printf("%c", root->value);
+  if(root->value != 'V' && root->value != 'H')
+  {
+    printf("(%d,%d)", root->width, root->height);
+  }
+  printf("\n");
 }
 
 void free_tree(Node* root)

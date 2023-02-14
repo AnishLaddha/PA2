@@ -3,6 +3,8 @@
 
 typedef struct _Node {
    char value;
+   int x_coord,y_coord;
+   int height,width;
    struct _Node *left, *right;
 } Node;
 
