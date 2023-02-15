@@ -37,7 +37,7 @@ int main()
   head->left = NULL;
   head->right = NULL;
 
-  FILE *fp = fopen("examples/8.pr","r");
+  FILE *fp = fopen("examples/3.pr","r");
 
 
   c_read = fgetc(fp);
@@ -61,16 +61,27 @@ int main()
     if(c_read != 'V' && c_read != 'H')
     {
       fscanf(fp, "(%d,%d)\n", &x_read, &y_read);
-      a->height = y_read;
-      a->width = x_read;
+      a->dim[1] = y_read;
+      a->dim[0] = x_read;
     }
     build_tree(head,head->left, a);
     c_read = fgetc(fp);
   }
   
   fclose(fp);
-  //printf("%c\n", head->left->value);
-  post_order_print(head->left);
+
+
+  fp = fopen("3_test.po","w");
+  post_order_print(head->left, fp);
+  fclose(fp);
+
+  fp = fopen("3_test.dim","w");
+  int* temp = dim_calc(head->left);
+  head->left->dim[0] = temp[0];
+  head->left->dim[1] = temp[1];
+  post_order_print_dim(head->left, fp);
+  fclose(fp);
+
   free_tree(head);
   return 0;
 }
