@@ -2,29 +2,6 @@
 #include <stdlib.h>
 #include "bin_head.h"
 
-// int main()
-// {
-//   char data[15] = {'H','H','V','2','5','1','V','V','H','3','V','7','4','6','8'};
-//   Node* head = malloc(sizeof(Node));
-//   head->value = 'a';
-//   head->left = NULL;
-//   head->right = NULL;
-  
-//   for(int i = 0; i<(sizeof(data)/sizeof(data[0]));i++)
-//   {
-//     Node* a = malloc(sizeof(Node));
-//     a->value = data[i];
-//     a->left = NULL;
-//     a->right = NULL;
-
-//     build_tree(head,head->left, a);
-//   }
-//   //printf("%c\n", head->left->value);
-//   post_order_print(head->left);
-//   free_tree(head);
-//   return 0;
-// }
-
 int main()
 {
   char c_read;
@@ -37,7 +14,8 @@ int main()
   head->left = NULL;
   head->right = NULL;
 
-  FILE *fp = fopen("examples/3.pr","r");
+  FILE *fp = fopen("examples/8.pr","r");
+  
 
 
   c_read = fgetc(fp);
@@ -70,19 +48,42 @@ int main()
   
   fclose(fp);
 
-
-  fp = fopen("3_test.po","w");
-  post_order_print(head->left, fp);
-  fclose(fp);
-
-  fp = fopen("3_test.dim","w");
+  
+  fp = fopen("8_test.po","w");
+  if(fp == NULL)
+  {
+    return EXIT_FAILURE;
+  }
   int* temp = dim_calc(head->left);
   head->left->dim[0] = temp[0];
   head->left->dim[1] = temp[1];
+  post_order_print(head->left, fp);
+  fclose(fp);
+
+
+  fp = fopen("8_test.dim","w");
+  if(fp == NULL)
+  {
+    return EXIT_FAILURE;
+  }
   post_order_print_dim(head->left, fp);
   fclose(fp);
 
+
+  fp = fopen("8_test.pck","w");
+  coord_calc(head, head->left);
+  if(fp == NULL)
+  {
+    return EXIT_FAILURE;
+  }
+  pre_order_print_coords(head->left,fp);
+  fclose(fp);
+
+
+
+  
+
   free_tree(head);
-  return 0;
+  return EXIT_SUCCESS;
 }
 

@@ -15,3 +15,5 @@ void free_tree(Node* root);
 int max_val(int a, int b);
 int* dim_calc(Node* root);
 void post_order_print_dim(Node *root, FILE *fp);
+void coord_calc(Node* prev, Node* curr);
+void pre_order_print_coords(Node *root, FILE *fp);
