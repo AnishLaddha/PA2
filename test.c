@@ -2,8 +2,12 @@
 #include <stdlib.h>
 #include "bin_head.h"
 
-int main()
+int main(int argc, char** argv)
 {
+  if(argc != 5)
+  {
+    return EXIT_FAILURE;
+  }
   char c_read;
   int x_read;
   int y_read;
@@ -14,10 +18,13 @@ int main()
   head->left = NULL;
   head->right = NULL;
 
-  FILE *fp = fopen("examples/8.pr","r");
-  
 
-
+  FILE *fp = fopen(argv[1],"r");
+  if(fp == NULL)
+  {
+    free_tree(head);
+    return EXIT_FAILURE;
+  }
   c_read = fgetc(fp);
   if(c_read == EOF)
   {
@@ -38,7 +45,11 @@ int main()
     a->right = NULL;
     if(c_read != 'V' && c_read != 'H')
     {
-      fscanf(fp, "(%d,%d)\n", &x_read, &y_read);
+      if (fscanf(fp, "(%d,%d)\n", &x_read, &y_read) == 0)
+      {
+        fprintf(stderr, "Could not read values\n");
+      }
+      //consider 2 digit case ->use fseek to return 
       a->dim[1] = y_read;
       a->dim[0] = x_read;
     }
@@ -49,9 +60,10 @@ int main()
   fclose(fp);
 
   
-  fp = fopen("8_test.po","w");
+  fp = fopen(argv[2],"w");
   if(fp == NULL)
   {
+    free_tree(head);
     return EXIT_FAILURE;
   }
   int* temp = dim_calc(head->left);
@@ -61,19 +73,21 @@ int main()
   fclose(fp);
 
 
-  fp = fopen("8_test.dim","w");
+  fp = fopen(argv[3],"w");
   if(fp == NULL)
   {
+    free_tree(head);
     return EXIT_FAILURE;
   }
   post_order_print_dim(head->left, fp);
   fclose(fp);
 
 
-  fp = fopen("8_test.pck","w");
+  fp = fopen(argv[4],"w");
   coord_calc(head, head->left);
   if(fp == NULL)
   {
+    free_tree(head);
     return EXIT_FAILURE;
   }
   pre_order_print_coords(head->left,fp);

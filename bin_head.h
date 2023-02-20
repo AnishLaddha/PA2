@@ -5,6 +5,7 @@ typedef struct _Node {
    char value;
    int coords[2]; //coords[0]: x coordinate, coords[1]: 
    int dim[2]; //dim[0]: width, dim[1]: height
+   int status; //0 for H/V, 1 for a num
    struct _Node *left, *right;
 } Node;
 
