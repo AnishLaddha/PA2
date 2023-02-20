@@ -36,10 +36,14 @@ void post_order_print(Node *root, FILE *fp)
   }
   post_order_print(root->left, fp);
   post_order_print(root->right, fp);
-  fprintf(fp,"%c", root->value);
+  
   if(root->value != 'V' && root->value != 'H')
   {
-    fprintf(fp,"(%d,%d)", root->dim[0], root->dim[1]);
+    fprintf(fp,"%d(%d,%d)", root->val, root->dim[0], root->dim[1]);
+  }
+  else
+  {
+    fprintf(fp,"%c", root->value);
   }
   fprintf(fp,"\n");
 }
@@ -152,8 +156,14 @@ void post_order_print_dim(Node *root, FILE *fp)
   }
   post_order_print_dim(root->left, fp);
   post_order_print_dim(root->right, fp);
-  fprintf(fp,"%c", root->value);
-  fprintf(fp,"(%d,%d)", root->dim[0], root->dim[1]);
+  if(root->value != 'V' && root->value != 'H')
+  {
+    fprintf(fp,"%d(%d,%d)",root->val, root->dim[0], root->dim[1]);
+  }
+  else
+  {
+    fprintf(fp,"%c(%d,%d)", root->value, root->dim[0], root->dim[1]);
+  }
   fprintf(fp,"\n");
 }
 
@@ -165,7 +175,7 @@ void pre_order_print_coords(Node *root, FILE *fp)
   }
   if(root->value != 'V' && root->value != 'H')
   {
-    fprintf(fp,"%c((%d,%d)(%d,%d))\n", root->value, root->dim[0], root->dim[1],
+    fprintf(fp,"%d((%d,%d)(%d,%d))\n", root->val, root->dim[0], root->dim[1],
     root->coords[0], root->coords[1]);
   }
   //printf("%c: %d %d\n", root->value, root->coords[0], root->coords[1]);

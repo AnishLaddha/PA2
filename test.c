@@ -11,7 +11,7 @@ int main(int argc, char** argv)
   char c_read;
   int x_read;
   int y_read;
-
+  int val_read;
 
   Node* head = malloc(sizeof(Node));
   head->value = 'a';
@@ -39,19 +39,30 @@ int main(int argc, char** argv)
       c_read = fgetc(fp);
     }
     //printf("CREAD: %c\n", c_read);
+    
     Node* a = malloc(sizeof(Node));
-    a->value = c_read;
+    
     a->left = NULL;
     a->right = NULL;
+    a->status = 0;
+    a->val = -1;
+    a->value = 'a';
     if(c_read != 'V' && c_read != 'H')
     {
-      if (fscanf(fp, "(%d,%d)\n", &x_read, &y_read) == 0)
+      fseek(fp, -1, SEEK_CUR);
+      if (fscanf(fp, "%d(%d,%d)\n",&val_read, &x_read, &y_read) == 0)
       {
         fprintf(stderr, "Could not read values\n");
       }
       //consider 2 digit case ->use fseek to return 
       a->dim[1] = y_read;
       a->dim[0] = x_read;
+      a->val = val_read;
+      a->status = 1;
+    }
+    else
+    {
+      a->value = c_read;
     }
     build_tree(head,head->left, a);
     c_read = fgetc(fp);
